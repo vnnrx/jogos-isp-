@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Playbook ISP — Falhas em Jogos Online (Valenet)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div class="brand-text">
+        <h1>Playbook ISP — Falhas em Jogos Online</h1>
+        <p>Valenet • N1 / N2 / CGR • Baseado em JSON (games.json)</p>
+      </div>
+    </div>
+
+    <div class="meta">
+      <div class="pills">
+        <span class="pill"><span class="dot"></span> Documento interno</span>
+        <span class="pill" id="versionPill">Versão: —</span>
+        <span class="pill">Pronto para GitHub Pages</span>
+      </div>
+      <div class="pills">
+        <span class="pill">Filtro por jogo/sintoma</span>
+        <span class="pill">Botão copiar para ticket</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="toolbar">
+    <div class="left">
+      <div class="hint">
+        Dica: <b>Ctrl + P</b> → <b>Salvar como PDF</b> (marcar “Gráficos de fundo”).
+      </div>
+      <div class="search">
+        <input id="q" type="search" placeholder="Buscar jogo, sintoma, ação…" autocomplete="off" />
+        <select id="symptom">
+          <option value="">Todos os sintomas</option>
+          <option value="latency">Latência / Ping</option>
+          <option value="packet_loss">Perda de pacotes</option>
+          <option value="jitter">Jitter</option>
+          <option value="disconnects">Desconexões</option>
+          <option value="nat">NAT</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btns">
+      <button class="btn" id="copySummary">📋 Copiar resumo (ticket)</button>
+      <button class="btn primary" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+      <a class="btn ghost" href="games.json" target="_blank" rel="noreferrer">🧩 Ver JSON</a>
+    </div>
+  </section>
+
+  <main class="grid">
+    <section class="card" id="ispCard">
+      <div class="section-title">
+        <h2>Perfil do ISP</h2>
+        <span>referência operacional</span>
+      </div>
+      <div class="profile" id="ispProfile"></div>
+
+      <div class="hr"></div>
+
+      <div class="section-title">
+        <h2>Fluxo operacional</h2>
+        <span>N1 → N2 → CGR</span>
+      </div>
+
+      <div class="flow">
+        <div class="node">
+          <div class="row">
+            <div>
+              <h3>Entrada: “jogo com lag / cai / ping alto”</h3>
+              <p>Registrar: jogo, cidade/POP, horário, cabeado/Wi‑Fi, outros serviços afetados, 2º dispositivo testado.</p>
+            </div>
+            <span class="tag">Triagem</span>
+          </div>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="node">
+          <div class="row">
+            <div>
+              <h3>N1 — Validação básica</h3>
+              <p>Orientar teste cabeado, reinício ONT/CPE, troca de cabo/porta, Wi‑Fi (5GHz/canal), speedtest e teste em outro dispositivo.</p>
+            </div>
+            <span class="tag">N1</span>
+          </div>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="node">
+          <div class="row">
+            <div>
+              <h3>N2 — Diagnóstico técnico</h3>
+              <p>Coletar ping/tracert/pathping e identificar onde inicia loss/jitter (LAN, ISP ou externo).</p>
+            </div>
+            <span class="tag">N2</span>
+          </div>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="node">
+          <div class="row">
+            <div>
+              <h3>CGR — Engenharia / NOC</h3>
+              <p>Interfaces, capacidade, BGP/peering, rota SP×RJ, upstream e monitoramento pós-correção.</p>
+            </div>
+            <span class="tag">CGR</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="section-title">
+        <h2>Comandos padrão (Windows)</h2>
+        <span>coleta de evidências</span>
+      </div>
+      <pre class="cmd">ping -n 50 &lt;IP_ou_host&gt;
+tracert &lt;IP_ou_host&gt;
+pathping &lt;IP_ou_host&gt;</pre>
+    </section>
+
+    <aside class="card" id="rightCard">
+      <div class="section-title">
+        <h2>Selecionado</h2>
+        <span>copiar para ticket</span>
+      </div>
+      <div id="selected" class="selected empty">
+        <p>Selecione um jogo na lista para ver detalhes.</p>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="section-title">
+        <h2>Checklist N2</h2>
+        <span>antes de escalar</span>
+      </div>
+      <ul class="checklist">
+        <li>Cliente testou <b>cabeado</b>?</li>
+        <li>Teste em <b>outro dispositivo</b>?</li>
+        <li>Horário de pico (19–23h)?</li>
+        <li>Ping/tracert/pathping coletados?</li>
+        <li>Hop onde inicia loss/jitter identificado?</li>
+        <li>Há outros clientes na mesma cidade/POP?</li>
+      </ul>
+
+      <div class="hr"></div>
+
+      <div class="section-title">
+        <h2>Como publicar no GitHub</h2>
+        <span>Pages</span>
+      </div>
+      <ol class="steps">
+        <li>Crie um repositório (ex.: <span class="mono">valenet-game-playbook</span>).</li>
+        <li>Suba estes arquivos: <span class="mono">index.html</span>, <span class="mono">styles.css</span>, <span class="mono">app.js</span>, <span class="mono">games.json</span>.</li>
+        <li>No GitHub: <b>Settings → Pages</b> → Source: <b>Deploy from a branch</b> → Branch: <b>main</b> → <b>/root</b>.</li>
+      </ol>
+    </aside>
+  </main>
+
+  <section class="card full">
+    <div class="section-title">
+      <h2>Jogos (carregado do JSON)</h2>
+      <span id="count">—</span>
+    </div>
+    <div id="list" class="list"></div>
+  </section>
+
+  <footer class="footer">
+    <span id="updatedAt">Atualizado em —</span> • Este playbook é um guia operacional e deve ser adaptado às políticas internas (CGNAT, IP público, peering).
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

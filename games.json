@@ -1,0 +1,265 @@
+{
+  "meta": {
+    "title": "Playbook ISP — Falhas em Jogos Online (Valenet)",
+    "version": "0.1.0",
+    "updated_at": "2026-01-20",
+    "notes": [
+      "Edite este JSON para adicionar/remover jogos, sintomas, checks e tratativas.",
+      "Campos 'references' aceitam URLs para documentação oficial (opcional)."
+    ],
+    "isp_profile": {
+      "name": "Companhia Itabirana de Telecomunicações (Valenet)",
+      "core_dc": "Itabira-MG",
+      "ptts": [
+        "São Paulo",
+        "Rio de Janeiro",
+        "Espírito Santo"
+      ],
+      "dns": [
+        "177.152.174.16",
+        "177.152.173.35"
+      ],
+      "edge_ip": "177.152.174.2"
+    }
+  },
+  "games": [
+    {
+      "id": "valorant",
+      "name": "VALORANT",
+      "publisher": "Riot Games",
+      "category": "FPS competitivo",
+      "typical_hosts": [
+        "Cloud (AWS/edge)"
+      ],
+      "top_complaints": [
+        "Ping alto",
+        "Packet loss",
+        "Desconexões"
+      ],
+      "symptoms_to_verify": [
+        "latency",
+        "packet_loss",
+        "jitter",
+        "disconnects"
+      ],
+      "checks": [
+        "Confirmar teste cabeado e 2º dispositivo",
+        "Coletar ping (50+), traceroute e pathping para destino do jogo (quando disponível)",
+        "Verificar se a rota sai por SP/RJ e onde inicia loss/jitter",
+        "Checar horário (pico 19–23h) e recorrência por cidade/POP"
+      ],
+      "actions": [
+        "Se Wi‑Fi: orientar teste cabeado, canal/5GHz, distância e interferência",
+        "Se loss dentro do ISP: escalar CGR com evidências (horário, POP, testes)",
+        "Se rota longa/ruim: avaliar otimização de saída/peering (SP vs RJ)",
+        "Se externo: orientar cliente e manter evidências; acompanhar recorrência"
+      ],
+      "escalate_to_cgr_when": [
+        "Loss/CRC/saturação em hops/links internos",
+        "Vários clientes mesma cidade/POP com o mesmo sintoma",
+        "Piora consistente em horário de pico"
+      ],
+      "references": [
+        {
+          "label": "Página de suporte (genérica)",
+          "url": "https://support-valorant.riotgames.com/"
+        }
+      ]
+    },
+    {
+      "id": "lol",
+      "name": "League of Legends",
+      "publisher": "Riot Games",
+      "category": "MOBA",
+      "typical_hosts": [
+        "Datacenter/edge (Riot)"
+      ],
+      "top_complaints": [
+        "Lag",
+        "Teleport/borrachudo",
+        "Quedas"
+      ],
+      "symptoms_to_verify": [
+        "latency",
+        "packet_loss",
+        "jitter",
+        "disconnects"
+      ],
+      "checks": [
+        "Confirmar cabeado/Wi‑Fi e teste em outro dispositivo",
+        "Coletar ping/traceroute/pathping",
+        "Validar se o problema é apenas no jogo (comparar com outros destinos)",
+        "Se aplicável, testar DNS alternativo e verificar comportamento com IPv6 (conforme política interna)"
+      ],
+      "actions": [
+        "Se jitter/loss interno: escalar CGR",
+        "Se externo: orientar cliente; registrar rota e hop com perda",
+        "Se piora noturna: checar capacidade/peering e correlação por cidade"
+      ],
+      "escalate_to_cgr_when": [
+        "Loss dentro do ISP",
+        "Aumento de latência correlacionado com capacidade",
+        "Mudança recente de rota/upstream coincide com início do problema"
+      ],
+      "references": [
+        {
+          "label": "Suporte LoL",
+          "url": "https://support-leagueoflegends.riotgames.com/"
+        }
+      ]
+    },
+    {
+      "id": "fortnite",
+      "name": "Fortnite",
+      "publisher": "Epic Games",
+      "category": "Battle Royale",
+      "typical_hosts": [
+        "Cloud (AWS/edge)"
+      ],
+      "top_complaints": [
+        "Packet loss",
+        "Ping variável",
+        "Quedas"
+      ],
+      "symptoms_to_verify": [
+        "latency",
+        "packet_loss",
+        "jitter",
+        "disconnects"
+      ],
+      "checks": [
+        "Conferir região/servidor selecionado no jogo (quando disponível)",
+        "Coletar ping/traceroute/pathping em momentos de falha",
+        "Correlacionar com pico e múltiplos clientes"
+      ],
+      "actions": [
+        "Orientar fixar região, evitar Wi‑Fi instável e testar cabeado",
+        "Se rota ruim para cloud: avaliar otimização de saída/peering",
+        "Se perda interna: escalar CGR"
+      ],
+      "escalate_to_cgr_when": [
+        "Perda interna / saturação",
+        "Vários clientes na mesma área com o mesmo comportamento"
+      ],
+      "references": [
+        {
+          "label": "Ajuda Epic Games",
+          "url": "https://www.epicgames.com/help/"
+        }
+      ]
+    },
+    {
+      "id": "cs2",
+      "name": "Counter-Strike 2",
+      "publisher": "Valve",
+      "category": "FPS competitivo",
+      "typical_hosts": [
+        "Steam/Valve (datacenters)"
+      ],
+      "top_complaints": [
+        "Ping oscilando",
+        "Quedas",
+        "Perda de pacotes"
+      ],
+      "symptoms_to_verify": [
+        "latency",
+        "packet_loss",
+        "jitter",
+        "disconnects"
+      ],
+      "checks": [
+        "Coletar traceroute/pathping e identificar hop com perda",
+        "Investigar padrão de quedas (intervalo fixo sugere timeout/NAT/CPE)",
+        "Comparar com outros serviços e outros jogos"
+      ],
+      "actions": [
+        "Orientar teste cabeado e verificação de CPE",
+        "Se suspeita de NAT/timeout: orientar UPnP/port forwarding (quando aplicável) e/ou oferecer IP público conforme oferta",
+        "Se perda interna: escalar CGR"
+      ],
+      "escalate_to_cgr_when": [
+        "Perda interna ou erro em interface",
+        "Congestionamento no POP/backbone"
+      ],
+      "references": [
+        {
+          "label": "Steam Support",
+          "url": "https://help.steampowered.com/"
+        }
+      ]
+    },
+    {
+      "id": "warzone",
+      "name": "Call of Duty: Warzone",
+      "publisher": "Activision",
+      "category": "Battle Royale",
+      "typical_hosts": [
+        "Cloud/Datacenters (variável)"
+      ],
+      "top_complaints": [
+        "NAT restrito",
+        "Desconexões",
+        "Matchmaking ruim"
+      ],
+      "symptoms_to_verify": [
+        "nat",
+        "disconnects",
+        "latency"
+      ],
+      "checks": [
+        "Confirmar se a reclamação é de NAT (mensagem no jogo/console)",
+        "Validar UPnP/portas no roteador do cliente (CPE)",
+        "Coletar evidências de rota quando o sintoma for ping/loss"
+      ],
+      "actions": [
+        "Orientar habilitar UPnP (se política do cliente permitir) ou abrir portas conforme documentação oficial",
+        "Se CGNAT impacta: oferecer IP público (quando aplicável) e registrar evidências",
+        "Se perda interna: escalar CGR"
+      ],
+      "escalate_to_cgr_when": [
+        "Problema generalizado em uma cidade/POP",
+        "Evidência de perda interna"
+      ],
+      "references": [
+        {
+          "label": "Activision Support",
+          "url": "https://support.activision.com/"
+        }
+      ]
+    },
+    {
+      "id": "freefire",
+      "name": "Free Fire",
+      "publisher": "Garena",
+      "category": "Mobile Battle Royale",
+      "typical_hosts": [
+        "Datacenters/Cloud (variável)"
+      ],
+      "top_complaints": [
+        "Lag noturno",
+        "Ping alto",
+        "Instabilidade"
+      ],
+      "symptoms_to_verify": [
+        "latency",
+        "packet_loss",
+        "jitter"
+      ],
+      "checks": [
+        "Validar se o problema ocorre em horário de pico (19–23h)",
+        "Correlacionar múltiplos clientes por cidade/POP",
+        "Coletar testes em rede móvel vs Wi‑Fi (quando possível)"
+      ],
+      "actions": [
+        "Se pico: acionar CGR para análise de capacidade/balanceamento",
+        "Se LAN: orientar canal 5GHz, teste cabeado (quando aplicável via adaptador)",
+        "Se externo: orientar e manter evidências"
+      ],
+      "escalate_to_cgr_when": [
+        "Correlação forte por área/horário",
+        "Sinais de saturação no acesso/agregação"
+      ],
+      "references": []
+    }
+  ]
+}
