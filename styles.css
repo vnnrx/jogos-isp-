@@ -58,6 +58,14 @@ body{
   border: 1px solid rgba(255,255,255,.22);
   flex: 0 0 auto;
 }
+
+.logoimg{
+  width:46px; height:46px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: 0 10px 30px rgba(110,231,255,.12);
+  flex: 0 0 auto;
+}
 .brand-text h1{ margin:0; font-size: 18px; letter-spacing: .2px; line-height: 1.2; }
 .brand-text p{ margin:4px 0 0; color: var(--muted); font-size: 12.5px; }
 
@@ -340,3 +348,18 @@ body{
   .btns{ display:none !important; }
   .footer{ color:#334155 !important; }
 }
+
+.item-head{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.item-icon{
+  width:34px;
+  height:34px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.04);
+  flex: 0 0 auto;
+}
+.item h3{ margin:0; }

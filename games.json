@@ -19,7 +19,8 @@
         "177.152.174.16",
         "177.152.173.35"
       ],
-      "edge_ip": "177.152.174.2"
+      "edge_ip": "177.152.174.2",
+      "icon": "assets/valenet.svg"
     }
   },
   "games": [
@@ -64,6 +65,13 @@
           "label": "Página de suporte (genérica)",
           "url": "https://support-valorant.riotgames.com/"
         }
+      ],
+      "icon": "assets/valorant.svg",
+      "aliases": [
+        "fps riot",
+        "riot fps",
+        "valorant",
+        "vava"
       ]
     },
     {
@@ -106,6 +114,13 @@
           "label": "Suporte LoL",
           "url": "https://support-leagueoflegends.riotgames.com/"
         }
+      ],
+      "icon": "assets/lol.svg",
+      "aliases": [
+        "league",
+        "league of legends",
+        "lol",
+        "riot moba"
       ]
     },
     {
@@ -146,6 +161,13 @@
           "label": "Ajuda Epic Games",
           "url": "https://www.epicgames.com/help/"
         }
+      ],
+      "icon": "assets/fortnite.svg",
+      "aliases": [
+        "battle royale epic",
+        "epic",
+        "fn",
+        "fortnite"
       ]
     },
     {
@@ -186,6 +208,14 @@
           "label": "Steam Support",
           "url": "https://help.steampowered.com/"
         }
+      ],
+      "icon": "assets/cs2.svg",
+      "aliases": [
+        "counter strike",
+        "counter-strike",
+        "cs",
+        "cs2",
+        "valve fps"
       ]
     },
     {
@@ -225,6 +255,14 @@
           "label": "Activision Support",
           "url": "https://support.activision.com/"
         }
+      ],
+      "icon": "assets/warzone.svg",
+      "aliases": [
+        "activision",
+        "call of duty",
+        "cod",
+        "mw",
+        "warzone"
       ]
     },
     {
@@ -259,7 +297,14 @@
         "Correlação forte por área/horário",
         "Sinais de saturação no acesso/agregação"
       ],
-      "references": []
+      "references": [],
+      "icon": "assets/freefire.svg",
+      "aliases": [
+        "battle royale mobile",
+        "ff",
+        "free fire",
+        "garena"
+      ]
     }
   ]
 }

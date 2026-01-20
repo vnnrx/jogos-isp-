@@ -37,15 +37,30 @@ function renderISP(profile){
   root.appendChild(grid);
 }
 
+function normalizeText(s){
+  return (s || "")
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+}
+
 function matchQuery(game, q){
-  if(!q) return true;
-  const hay = [
+  const query = normalizeText(q).trim();
+  if(!query) return true;
+
+  const hay = normalizeText([
+    game.id,
     game.name, game.publisher, game.category,
+    ...(game.aliases || []),
     ...(game.top_complaints || []),
     ...(game.checks || []),
     ...(game.actions || []),
-  ].join(' ').toLowerCase();
-  return hay.includes(q.toLowerCase());
+  ].join(' '));
+
+  // Todos os tokens devem bater (sensação de filtro real)
+  const tokens = query.split(/\s+/).filter(Boolean);
+  return tokens.every(t => hay.includes(t));
 }
 
 function matchSymptom(game, symptom){
@@ -76,8 +91,20 @@ function renderList(){
       if(e.key === 'Enter' || e.key === ' ') selectGame(g.id);
     });
 
+    const head = document.createElement('div');
+    head.className = 'item-head';
+
+    const ic = document.createElement('img');
+    ic.className = 'item-icon';
+    ic.alt = g.name + ' ícone';
+    ic.loading = 'lazy';
+    ic.src = g.icon || 'assets/valenet.svg';
+
     const h = document.createElement('h3');
     h.textContent = g.name;
+
+    head.appendChild(ic);
+    head.appendChild(h);
 
     const p = document.createElement('p');
     const complaints = (g.top_complaints || []).slice(0,3).join(' • ') || '—';
@@ -90,7 +117,7 @@ function renderList(){
     if((g.symptoms_to_verify || []).includes('nat')) chips.appendChild(chip('NAT'));
     if((g.symptoms_to_verify || []).includes('packet_loss')) chips.appendChild(chip('Loss'));
 
-    card.appendChild(h);
+    card.appendChild(head);
     card.appendChild(p);
     card.appendChild(chips);
     list.appendChild(card);
@@ -115,7 +142,10 @@ function renderSelected(){
   const refs = (g.references || []).map(r => `<li><a href="${r.url}" target="_blank" rel="noreferrer">${r.label}</a></li>`).join('');
 
   box.innerHTML = `
-    <h3>${g.name}</h3>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <img src="${g.icon || 'assets/valenet.svg'}" alt="${g.name} ícone" style="width:34px;height:34px;border-radius:12px;border:1px solid rgba(255,255,255,.18);" />
+      <h3 style="margin:0;">${g.name}</h3>
+    </div>
     <p class="sub">${[g.category, g.publisher].filter(Boolean).join(' • ')}</p>
 
     <h4>Reclamações mais comuns</h4>
